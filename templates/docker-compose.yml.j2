@@ -1,0 +1,31 @@
+version: "3.7"
+services:
+
+  traefik:
+    image: "traefik:latest"
+    command:
+      - "--log.level=DEBUG"
+      - "--providers.file.filename=/etc/traefik/prometheus.yml"
+      - "--providers.docker=true"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "{{ prometheus_server_config_volume }}/traefik.yml:/etc/traefik/prometheus.yml"
+{% if prometheus_server_tls_crt | default('') | length > 0 and prometheus_server_tls_key | default('') | length > 0 %}
+      - "{{ prometheus_server_tls_crt }}:/etc/traefik/{{ prometheus_server_tls_crt | basename }}"
+      - "{{ prometheus_server_tls_key }}:/etc/traefik/{{ prometheus_server_tls_key | basename }}"
+{% endif %}
+    ports:
+      - "80:80"
+      - "443:443"
+
+  prometheus:
+    image: prom/prometheus:{{ prometheus_server_tag }}
+    volumes:
+      - "{{ prometheus_server_config_volume }}:{{ prometheus_server_config_mount }}"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.prometheus.rule=Host(`ict-prometheus-01.dt.ept.lu`)"
+      - "traefik.http.routers.prometheus.entrypoints=websecure"
+      - "traefik.http.routers.prometheus.tls=true"

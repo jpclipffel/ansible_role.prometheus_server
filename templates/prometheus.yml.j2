@@ -1,0 +1,11 @@
+# prometheus.yml
+#
+# THIS FILE IS GENERATED AND MAINTAINED BY ANSIBLE.
+# DO NOT DELETE, RENAME OR CHANGE THIS FILE.
+#
+# --- Ansible log ---
+# Generation role: {{ role_name }}
+# Generation date: {{ ansible_date_time.iso8601 }}
+# ---
+
+{{ prometheus_server_config | to_nice_yaml(indent=2) | indent(2,False) }}

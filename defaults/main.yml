@@ -1,0 +1,8 @@
+prometheus_server_tag: "latest"
+prometheus_server_project_name: "prometheus-server"
+prometheus_server_port: 9090
+prometheus_server_tls_crt: ""
+prometheus_server_tls_key: ""
+prometheus_server_config_volume: "/opt/prometheus"
+prometheus_server_config_mount: "/etc/prometheus"
+prometheus_config: {}

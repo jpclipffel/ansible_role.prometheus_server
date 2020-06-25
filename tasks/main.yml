@@ -1,0 +1,52 @@
+- name: Create Prometheus volume
+  file:
+    path: "{{ prometheus_server_config_volume }}"
+    state: directory
+  tags:
+    - never
+    - setup
+
+
+- name: Install Prometheus configuration
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ prometheus_server_config_volume }}/{{ item.dest }}"
+  with_items:
+    - { src: "prometheus.yml.j2", dest: "prometheus.yml" }
+    - { src: "traefik.yml.j2", dest: "traefik.yml" }
+  tags:
+    - never
+    - setup
+
+
+- name: Deploy Prometheus server
+  docker_compose:
+    project_name: "{{ prometheus_server_project_name }}"
+    definition: "{{ lookup('template', 'docker-compose.yml.j2') | from_yaml }}"
+    state: present
+  tags:
+    - never
+    - setup
+
+
+- name: Remove Prometheus server
+  docker_compose:
+    project_name: "{{ prometheus_server_project_name }}"
+    definition: "{{ lookup('template', 'docker-compose.yml.j2') | from_yaml }}"
+    state: absent
+  tags:
+    - never
+    - teardown
+
+
+- name: Remove Prometheus configuration
+  file:
+    path: "{{ prometheus_server_config_volume }}/{{ item.dest }}"
+    state: absent
+  with_items:
+    - { src: "prometheus.yml.j2", dest: "prometheus.yml" }
+    - { src: "traefik.yml.j2", dest: "traefik.yml" }
+  tags:
+    - never
+    - teardown
+    - remove

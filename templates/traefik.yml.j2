@@ -1,0 +1,6 @@
+{% if prometheus_server_tls_crt | default('') | length > 0 and prometheus_server_tls_key | default('') | length > 0 %}
+tls:
+  certificates:
+    - certFile: /etc/traefik/{{ prometheus_server_tls_crt | basename }}
+      keyFile: /etc/traefik/{{ prometheus_server_tls_key | basename }}
+{% endif %}
