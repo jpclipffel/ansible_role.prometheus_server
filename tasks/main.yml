@@ -17,6 +17,7 @@
   tags:
     - never
     - setup
+    - update
 
 
 - name: Deploy Prometheus server
@@ -27,6 +28,25 @@
   tags:
     - never
     - setup
+
+
+# - name: Add Prometheus container in run-time inventory
+#   add_host:
+#     name: "{{ prometheus_server_project_name }}_prometheus_1"
+#     ansible_connection: docker
+#   changed_when: false
+#   tags:
+#     - never
+#     - update
+
+
+- name: Reload Prometheus configuration
+  shell: >
+    docker exec {{ prometheus_server_project_name }}_prometheus_1 /bin/sh -c 'kill -HUP $(pgrep prometheus)'
+  # delegate_to: "{{ prometheus_server_project_name }}_prometheus_1"
+  tags:
+    - never
+    - update
 
 
 - name: Remove Prometheus server
