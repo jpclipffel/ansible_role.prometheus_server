@@ -22,10 +22,13 @@ services:
 
   prometheus:
     image: prom/prometheus:{{ prometheus_server_tag }}
+    command:
+      - "--web.enable-lifecycle"
+      - "--config.file=/etc/prometheus/prometheus.yml"
     volumes:
       - "{{ prometheus_server_config_volume }}:{{ prometheus_server_config_mount }}"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.prometheus.rule=Host(`ict-prometheus-01.dt.ept.lu`)"
+      - "traefik.http.routers.prometheus.rule=HostRegexp({{ prometheus_server_HostRegexps | join(',') }})"
       - "traefik.http.routers.prometheus.entrypoints=websecure"
       - "traefik.http.routers.prometheus.tls=true"
