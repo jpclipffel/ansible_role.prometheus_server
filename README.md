@@ -9,6 +9,7 @@ If you whish to setup a local Prometheus server on a Kubernetes cluster, you sho
 | Tag        | Description                                |
 |------------|--------------------------------------------|
 | `setup`    | Deploy Prometheus and associated resources |
+| `update`   | Update Prometheus configuration            |
 | `teardown` | Remove Prometheus and associated resources |
 | `remove`   | Remove Prometheus and associated resources |
 
@@ -19,8 +20,9 @@ If you whish to setup a local Prometheus server on a Kubernetes cluster, you sho
 | `prometheus_server_tag`           | `string` | No       | `latest`            |             |
 | `prometheus_server_project_name`  | `string` | No       | `prometheus-server` |             |
 | `prometheus_server_port`          | `string` | No       | `9090`              |             |
-| `prometheus_server_tls_crt`       | `string` | No       | `""` (empry string) |             |
-| `prometheus_server_tls_key`       | `string` | No       | `""` (empry string) |             |
+| `prometheus_server_tls_crt`       | `string` | No       | `""` (empty string) |             |
+| `prometheus_server_tls_key`       | `string` | No       | `""` (empty string) |             |
 | `prometheus_server_config_volume` | `string` | No       | `/opt/prometheus`   |             |
 | `prometheus_server_config_mount`  | `string` | No       | `/etc/prometheus`   |             |
-| `prometheus_config`               | `string` | No       | `{}`                |             |
+| `prometheus_server_config`        | `string` | No       | `{}`                |             |
+| `prometheus_server_HostRegexps`   | `list`   | No       | `{host:.*}`         |             |
