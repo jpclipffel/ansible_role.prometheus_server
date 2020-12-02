@@ -17,6 +17,10 @@ prometheus_server_config_mount: "/etc/prometheus"
 # Should be override by inventory.
 prometheus_server_config: {}
 
+# Prometheus server data parh on host and container.
+prometheus_server_data_volume: "/opt/prometheus/data"
+prometheus_server_data_mount: "/prometheus"
+
 # Host routing rules.
 # Please refer to https://docs.traefik.io/routing/routers/
 prometheus_server_HostRegexps: [ "`{host:.*}`", ]

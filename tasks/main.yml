@@ -1,10 +1,14 @@
-- name: Create Prometheus volume
+# code: language=Ansible insertSpaces=true tabSize=2
+
+
+- name: Create Prometheus volumes
   file:
-    path: "{{ prometheus_server_config_volume }}"
+    path: "{{ item }}"
     state: directory
-  tags:
-    - never
-    - setup
+  with_items:
+    - "{{ prometheus_server_config_volume }}"
+    - "{{ prometheus_server_data_volume }}"
+  tags: [never, setup]
 
 
 - name: Install Prometheus configuration
@@ -14,10 +18,7 @@
   with_items:
     - { src: "prometheus.yml.j2", dest: "prometheus.yml" }
     - { src: "traefik.yml.j2", dest: "traefik.yml" }
-  tags:
-    - never
-    - setup
-    - update
+  tags: [never, setup, update]
 
 
 - name: Deploy Prometheus server
@@ -25,9 +26,7 @@
     project_name: "{{ prometheus_server_project_name }}"
     definition: "{{ lookup('template', 'docker-compose.yml.j2') | from_yaml }}"
     state: present
-  tags:
-    - never
-    - setup
+  tags: [never, setup]
 
 
 # - name: Add Prometheus container in run-time inventory
@@ -43,10 +42,8 @@
 - name: Reload Prometheus configuration
   shell: >
     docker exec {{ prometheus_server_project_name }}_prometheus_1 /bin/sh -c 'kill -HUP $(pgrep prometheus)'
-  # delegate_to: "{{ prometheus_server_project_name }}_prometheus_1"
-  tags:
-    - never
-    - update
+  ignore_errors: yes
+  tags: [never, setup, update]
 
 
 - name: Remove Prometheus server
@@ -54,9 +51,7 @@
     project_name: "{{ prometheus_server_project_name }}"
     definition: "{{ lookup('template', 'docker-compose.yml.j2') | from_yaml }}"
     state: absent
-  tags:
-    - never
-    - teardown
+  tags: [never, teardown]
 
 
 - name: Remove Prometheus configuration
@@ -66,7 +61,4 @@
   with_items:
     - { src: "prometheus.yml.j2", dest: "prometheus.yml" }
     - { src: "traefik.yml.j2", dest: "traefik.yml" }
-  tags:
-    - never
-    - teardown
-    - remove
+  tags: [never, teardown, remove]

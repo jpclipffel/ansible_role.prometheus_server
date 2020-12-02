@@ -27,6 +27,7 @@ services:
       - "--config.file=/etc/prometheus/prometheus.yml"
     volumes:
       - "{{ prometheus_server_config_volume }}:{{ prometheus_server_config_mount }}"
+      - "{{ prometheus_server_data_volume }}:{{ prometheus_server_data_mount }}"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.prometheus.rule=HostRegexp({{ prometheus_server_HostRegexps | join(',') }})"
