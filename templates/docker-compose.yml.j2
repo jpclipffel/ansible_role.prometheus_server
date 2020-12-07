@@ -25,6 +25,8 @@ services:
     command:
       - "--web.enable-lifecycle"
       - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.retention.size={{ prometheus_server_tsdb_retention_size }}"
+      - "--storage.tsdb.retention.time={{ prometheus_server_tsdb_retention_time }}"
     volumes:
       - "{{ prometheus_server_config_volume }}:{{ prometheus_server_config_mount }}"
       - "{{ prometheus_server_data_volume }}:{{ prometheus_server_data_mount }}"

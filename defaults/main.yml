@@ -24,3 +24,7 @@ prometheus_server_data_mount: "/prometheus"
 # Host routing rules.
 # Please refer to https://docs.traefik.io/routing/routers/
 prometheus_server_HostRegexps: [ "`{host:.*}`", ]
+
+# TSDB configuration
+prometheus_server_tsdb_retention_size: "200GB"
+prometheus_server_tsdb_retention_time: "365d"
