@@ -15,19 +15,21 @@ If you whish to setup a local Prometheus server on a Kubernetes cluster, you sho
 
 ## Variables
 
-| Variable                          | Type     | Required | Default                | Description                                     |
-|-----------------------------------|----------|----------|------------------------|-------------------------------------------------|
-| `prometheus_server_tag`           | `string` | No       | `latest`               | Prometheus Docker image tag                     |
-| `prometheus_server_project_name`  | `string` | No       | `prometheus-server`    | Docker compose project name                     |
-| `prometheus_server_port`          | `string` | No       | `9090`                 | Prometheus server port                          |
-| `prometheus_server_tls_crt`       | `string` | No       | `""` (empty string)    | Prometheus server SSL certificate               |
-| `prometheus_server_tls_key`       | `string` | No       | `""` (empty string)    | Prometheus server SSL key                       |
-| `prometheus_server_config_volume` | `string` | No       | `/opt/prometheus`      | Prometheus configuration file path on host      |
-| `prometheus_server_config_mount`  | `string` | No       | `/etc/prometheus`      | Prometheus configuration file path in container |
-| `prometheus_server_config`        | `string` | No       | `{}` (empty YAML map)  | Prometheus server configuration (YAML string)   |
-| `prometheus_server_data_volume`   | `string` | No       | `/opt/prometheus/data` | Prometheus server data path on host             |
-| `prometheus_server_data_mount`    | `string` | No       | `/prometheus`          | Prometheus server data path in container        |
-| `prometheus_server_HostRegexps`   | `list`   | No       | `{host:.*}`            | Traefik routing rule                            |
+| Variable                                | Type     | Required | Default                | Description                                     |
+|-----------------------------------------|----------|----------|------------------------|-------------------------------------------------|
+| `prometheus_server_tag`                 | `string` | No       | `latest`               | Prometheus Docker image tag                     |
+| `prometheus_server_project_name`        | `string` | No       | `prometheus-server`    | Docker compose project name                     |
+| `prometheus_server_port`                | `string` | No       | `9090`                 | Prometheus server port                          |
+| `prometheus_server_tls_crt`             | `string` | No       | `""` (empty string)    | Prometheus server SSL certificate               |
+| `prometheus_server_tls_key`             | `string` | No       | `""` (empty string)    | Prometheus server SSL key                       |
+| `prometheus_server_tsdb_retention_size` | `string` | No       | `"200GB"`              | Retention size in GB                            |
+| `prometheus_server_tsdb_retention_time` | `string` | No       | `"365d"`               | Retention time                                  |
+| `prometheus_server_config_volume`       | `string` | No       | `/opt/prometheus`      | Prometheus configuration file path on host      |
+| `prometheus_server_config_mount`        | `string` | No       | `/etc/prometheus`      | Prometheus configuration file path in container |
+| `prometheus_server_config`              | `string` | No       | `{}` (empty YAML map)  | Prometheus server configuration (YAML string)   |
+| `prometheus_server_data_volume`         | `string` | No       | `/opt/prometheus/data` | Prometheus server data path on host             |
+| `prometheus_server_data_mount`          | `string` | No       | `/prometheus`          | Prometheus server data path in container        |
+| `prometheus_server_HostRegexps`         | `list`   | No       | `{host:.*}`            | Traefik routing rule                            |
 
 ## Templates
 
