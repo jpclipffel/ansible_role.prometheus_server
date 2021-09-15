@@ -10,7 +10,6 @@
     - "{{ prometheus_server_data_volume }}"
   tags: [never, setup]
 
-
 - name: Install Prometheus configuration
   template:
     src: "{{ item.src }}"
@@ -20,14 +19,12 @@
     - { src: "traefik.yml.j2", dest: "traefik.yml" }
   tags: [never, setup, update]
 
-
 - name: Deploy Prometheus server
   docker_compose:
     project_name: "{{ prometheus_server_project_name }}"
     definition: "{{ lookup('template', 'docker-compose.yml.j2') | from_yaml }}"
     state: present
   tags: [never, setup]
-
 
 # - name: Add Prometheus container in run-time inventory
 #   add_host:
@@ -38,21 +35,18 @@
 #     - never
 #     - update
 
-
 - name: Reload Prometheus configuration
   shell: >
     docker exec {{ prometheus_server_project_name }}_prometheus_1 /bin/sh -c 'kill -HUP $(pgrep prometheus)'
   ignore_errors: yes
   tags: [never, setup, update]
 
-
 - name: Remove Prometheus server
   docker_compose:
     project_name: "{{ prometheus_server_project_name }}"
     definition: "{{ lookup('template', 'docker-compose.yml.j2') | from_yaml }}"
     state: absent
-  tags: [never, teardown]
-
+  tags: [never, teardown, remove]
 
 - name: Remove Prometheus configuration
   file:
