@@ -10,16 +10,16 @@ prometheus_server_tls_key: ""
 
 # Host configuration path and container mount path.
 # Host path is created if necessary.
-prometheus_server_config_volume: "/opt/prometheus"
-prometheus_server_config_mount: "/etc/prometheus"
+prometheus_server_config_volume: "/opt/prometheus"    # On host
+prometheus_server_config_mount: "/etc/prometheus"     # On container
 
 # Prometheus configuration (YAML block).
 # Should be override by inventory.
 prometheus_server_config: {}
 
 # Prometheus server data parh on host and container.
-prometheus_server_data_volume: "/opt/prometheus/data"
-prometheus_server_data_mount: "/prometheus"
+prometheus_server_data_volume: "/opt/prometheus/data"   # On host
+prometheus_server_data_mount: "/prometheus"             # On container
 
 # Host routing rules.
 # Please refer to https://docs.traefik.io/routing/routers/
